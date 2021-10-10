@@ -107,11 +107,11 @@
                 
                     <a href="/tags/" class="navbar-menu button">标签</a>
                 
+                    <a href="/categories/" class="navbar-menu button">分类</a>
+                
                     <a href="/archives/" class="navbar-menu button">时间线</a>
                 
                     <a href="/friends/" class="navbar-menu button">大腿们</a>
-                
-                    <a href="/page/" class="navbar-menu button">Page</a>
                 
             </div>
         
@@ -133,11 +133,11 @@
                 
                     <a href="/tags/" class="dropdown-menu button">标签</a>
                 
+                    <a href="/categories/" class="dropdown-menu button">分类</a>
+                
                     <a href="/archives/" class="dropdown-menu button">时间线</a>
                 
                     <a href="/friends/" class="dropdown-menu button">大腿们</a>
-                
-                    <a href="/page/" class="dropdown-menu button">Page</a>
                 
             </div>
         
@@ -168,8 +168,23 @@
 </div>
 
 
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-text">前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GitHub%E8%B4%A6%E5%8F%B7%E6%B3%A8%E5%86%8C%E3%80%81repository%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">GitHub账号注册、repository的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E3%80%81nodejs%E3%80%81hexo%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="toc-text">git、nodejs、hexo的下载安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%99%E7%82%B9%E5%BB%BA%E7%AB%8B"><span class="toc-text">站点建立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E4%BD%BF%E7%94%A8ssh%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5GitHub%E4%BB%93%E5%BA%93"><span class="toc-text">git使用ssh远程连接GitHub仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9hexo%E9%85%8D%E7%BD%AE%EF%BC%8C%E5%AE%8C%E6%88%90%E8%BF%9E%E6%8E%A5%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%92%8C%E4%BB%93%E5%BA%93"><span class="toc-text">修改hexo配置，完成连接本地文件和仓库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E5%8D%9A%E6%96%87"><span class="toc-text">编写博文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E6%96%87%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BC%96%E8%BE%91"><span class="toc-text">博文的创建和编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E6%96%87%E7%9A%84%E9%A2%84%E8%A7%88%E5%92%8C%E4%B8%8A%E4%BC%A0"><span class="toc-text">博文的预览和上传</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BE%E5%A3%B0"><span class="toc-text">尾声</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-text">前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GitHub%E8%B4%A6%E5%8F%B7%E6%B3%A8%E5%86%8C%E3%80%81repository%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">GitHub账号注册、repository的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E3%80%81nodejs%E3%80%81hexo%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="toc-text">git、nodejs、hexo的下载安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%99%E7%82%B9%E5%BB%BA%E7%AB%8B"><span class="toc-text">站点建立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E4%BD%BF%E7%94%A8ssh%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5GitHub%E4%BB%93%E5%BA%93"><span class="toc-text">git使用ssh远程连接GitHub仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9hexo%E9%85%8D%E7%BD%AE%EF%BC%8C%E5%AE%8C%E6%88%90%E8%BF%9E%E6%8E%A5%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%92%8C%E4%BB%93%E5%BA%93"><span class="toc-text">修改hexo配置，完成连接本地文件和仓库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E5%8D%9A%E6%96%87"><span class="toc-text">编写博文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E6%96%87%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BC%96%E8%BE%91"><span class="toc-text">博文的创建和编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E6%96%87%E7%9A%84%E9%A2%84%E8%A7%88%E5%92%8C%E4%B8%8A%E4%BC%A0"><span class="toc-text">博文的预览和上传</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BE%E5%A3%B0"><span class="toc-text">尾声</span></a></li></ol>
+    </div>
 
-<article class="post content-card">
+
+<article class="post post__with-toc content-card">
     <div class="post__header"></div>
     <div class="post__content">
         <p>本博客的诞(cai)生(keng)记录，顺便记录一下建立博客的大致流程</p>
