@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/icons/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>Matlab与贝塞尔函数——记一次问题解决 | 咸鱼养殖场</title>
+
+
+    <meta name="keywords" content="Matlab, 闲聊">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="记录一下近期做项目时遇到的问题以及解决的全过程，思路说不定可以延申到其他的领域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matlab与贝塞尔函数——记一次问题解决">
+<meta property="og:url" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:site_name" content="咸鱼养殖场">
+<meta property="og:description" content="记录一下近期做项目时遇到的问题以及解决的全过程，思路说不定可以延申到其他的领域">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazapdf.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaerr1.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/mbessel.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/bessel.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaerr2.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/testfun1.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/testfunerr1.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaerr3.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaerr4.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/testfunerr2.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaerr5.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazaresult.jpg">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/CLoopdf.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooerr1.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooerr2.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooerr3.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooerr4.png">
+<meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooresult.jpg">
+<meta property="article:published_time" content="2021-10-23T01:52:20.000Z">
+<meta property="article:modified_time" content="2021-10-23T07:07:21.463Z">
+<meta property="article:author" content="罐头鱼">
+<meta property="article:tag" content="Matlab">
+<meta property="article:tag" content="闲聊">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/corrazapdf.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">咸鱼养殖场</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/categories/" class="navbar-menu button">分类</a>
+                
+                    <a href="/archives/" class="navbar-menu button">时间线</a>
+                
+                    <a href="/friends/" class="navbar-menu button">大腿们</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">分类</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">时间线</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">大腿们</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Matlab与贝塞尔函数——记一次问题解决
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2021/10/" class="post-meta__date button">2021-10-23</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E5%8F%8A%E5%88%9D%E6%AD%A5%E6%8E%92%E6%9F%A5"><span class="toc-text">现象及初步排查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%87%BA%E7%8E%B0"><span class="toc-text">问题出现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E5%80%BC%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="toc-text">负值的来源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3"><span class="toc-text">表层分析与解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%B3%A2%E5%8F%88%E8%B5%B7"><span class="toc-text">一波又起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%B3%A2%E5%8F%8C%E8%B5%B7"><span class="toc-text">一波双起</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%EF%BC%8C%E5%B9%B6%E6%B7%B1%E5%85%A5%E6%9C%AC%E8%B4%A8"><span class="toc-text">迁移，并深入本质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9C%E7%84%B6%EF%BC%8C%E4%B8%80%E5%88%87%E8%BF%98%E6%B2%A1%E7%BB%93%E6%9D%9F"><span class="toc-text">果然，一切还没结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E9%97%AE%E9%A2%98%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-text">探索问题的本质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-text">写在最后</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E5%8F%8A%E5%88%9D%E6%AD%A5%E6%8E%92%E6%9F%A5"><span class="toc-text">现象及初步排查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%87%BA%E7%8E%B0"><span class="toc-text">问题出现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E5%80%BC%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="toc-text">负值的来源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3"><span class="toc-text">表层分析与解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%B3%A2%E5%8F%88%E8%B5%B7"><span class="toc-text">一波又起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%B3%A2%E5%8F%8C%E8%B5%B7"><span class="toc-text">一波双起</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%EF%BC%8C%E5%B9%B6%E6%B7%B1%E5%85%A5%E6%9C%AC%E8%B4%A8"><span class="toc-text">迁移，并深入本质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9C%E7%84%B6%EF%BC%8C%E4%B8%80%E5%88%87%E8%BF%98%E6%B2%A1%E7%BB%93%E6%9D%9F"><span class="toc-text">果然，一切还没结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E9%97%AE%E9%A2%98%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-text">探索问题的本质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-text">写在最后</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>记录一下近期做项目时遇到的问题以及解决的全过程，思路说不定可以延申到其他的领域</p>
+<span id="more"></span>
+
+<h1 id="从卫星信道说起"><a href="#从卫星信道说起" class="headerlink" title="从卫星信道说起"></a>从卫星信道说起</h1><p>笔者研究生阶段所在的实验室，主要研究的内容是无线通信的信道建模，至于这个东西是什么，简而言之就是无线通信的信道建模（逃）。<br>（既然提到这个，以后说不定会开个坑简单科普下这个内容，帮自己捋清思路）<br>最近做的项目需要进行卫星信道模型的仿真，所以找了些信道的模型，把他们的概率密度函数(Probability Density Function，下文简称PDF)用Matlab弄出来，画个图啥的就能<del>混过去了</del>。<br>看上去还是蛮轻松惬意的活，做的时候却遇到了意想不到的麻烦，所以在这里把这个问题的出现、排查及解决过程整理下来，可以当作以后处理类似问题的样本。</p>
+<h2 id="现象及初步排查"><a href="#现象及初步排查" class="headerlink" title="现象及初步排查"></a>现象及初步排查</h2><h3 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h3><p>首先从出现问题的模型开始说起。这个模型叫做Corraza模型，用于描述卫星通信的信道特性。细节的东西不重要直接略过，它的PDF如下：<br><img src="corrazapdf.png"><br>这里的I0是<strong>第一类零阶修正贝塞尔函数</strong>，这也是这次的核心问题之一。<br>另外，该函数里的其他参数都是卫星仰角的函数，所以只要给出自变量<code>r</code>和卫星仰角<code>sita</code>,那么该PDF的值就可以唯一确定。<br>看上去除了长了一点没有太大问题，直接Matlab开搞：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function [pdf]=cm(r,sita)</span><br><span class="line"></span><br><span class="line">K0=2.731; K1=-1.074*10^(-1); K2=2.774*10^(-3);</span><br><span class="line">miu0=-2.331; miu1=1.142*10^(-1); miu2=-1.939*10^(-3); miu3=1.094*10^(-5);</span><br><span class="line">sigma0=4.5; sigma1=-0.05;		</span><br><span class="line">h=log(10)/20; </span><br><span class="line">%公式中的参数由论文提供</span><br><span class="line"></span><br><span class="line">K=K0+K1*sita+K2*sita^2;</span><br><span class="line">miu=miu0+miu1*sita+miu2*sita^2+miu3*sita^3;</span><br><span class="line">sigma=sigma0+sigma1*sita;	    </span><br><span class="line">%计算其他中间参数</span><br><span class="line"></span><br><span class="line">intfun=@(x) (1./x.^3).*exp(-((K+1).*r.^2./x.^2)-((log(x)-miu).^2./(2.*(h.*sigma).^2))).*besselj(0,((2.*r.*sqrt(K.*(K+1)))./x));</span><br><span class="line">pdf=(2.*r.*(K+1))./(h.*sigma.*sqrt(2*pi)).*exp(-K).*integral(intfun,0,inf);   </span><br><span class="line">%输出结果</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>检查几遍没有问题，OK，开始画图：<br><img src="corrazaerr1.png"><br>这里显然可以看到有问题，作为概率密度函数，pdf的值不可能为负。接下来开始逐层排查问题：</p>
+<h3 id="负值的来源"><a href="#负值的来源" class="headerlink" title="负值的来源"></a>负值的来源</h3><p><strong>观察PDF的形式，积分外的部分显然是一个正比函数，<code>r</code>取正值时必为正值，那么负值来源于积分内部。</strong><br><strong>再看被积函数，一个底数为e的指数函数，一个自变量的-3次方，这两项在自变量取正值时必为正，那么负值来源于贝塞尔函数I0。</strong><br>google一下贝塞尔函数，找到了修正贝塞尔函数的形式：<br><img src="mbessel.png"><br>显然它是指数增长形式且没有负值，这就怪了，笔者明明用的是修正贝塞尔函数但是为什么会出现负值呢？<br>再google一下Matlab里的贝塞尔函数，才发现笔者用的函数是<code>besselj(nu,z)</code>，这个是非修正的贝塞尔函数：<br><img src="bessel.png"><br>这就不奇怪了，那么解决也很简单，把<code>besselj(nu,z)</code>换成对应的<code>besseli(nu,z)</code>就可以了。<br><strong>然而，真的会这么简单么(笑)</strong></p>
+<h2 id="表层分析与解决"><a href="#表层分析与解决" class="headerlink" title="表层分析与解决"></a>表层分析与解决</h2><h3 id="一波又起"><a href="#一波又起" class="headerlink" title="一波又起"></a>一波又起</h3><p>如上文所示，把贝塞尔函数换成正确的形式，开始画图：<br><img src="corrazaerr2.png"><br>心 肺 停 止<br>出现了NaN，对于Matlab来说就是被积函数出现了NaN，既然如此，有必要看一下被积函数到底是什么样子了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">s=0:0.01:4;</span><br><span class="line">testfun=(1./s.^3).*exp(-((K+1).*r.^2./s.^2)-((log(s)-miu).^2./(2.*(h.*sigma).^2))).*besseli(0,((2.*r.*sqrt(K.*(K+1)))./s));</span><br><span class="line">plot(s,testfun);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="testfun1.png"><br>看上去好像还蛮正常的，输出一下函数值看看：<br><img src="testfunerr1.png"><br>居然在第一个点出现了NaN，那么问题就很清晰了，<strong>被积函数在自变量为0时会出现NaN</strong>，所以在进行积分运算时，把积分下限稍微提高一点就可以了。</p>
+<h3 id="一波双起"><a href="#一波双起" class="headerlink" title="一波双起"></a>一波双起</h3><p>把积分限从<code>(0，inf)</code>改为<code>(0.01，inf)</code>，再试一下：<br><img src="corrazaerr3.png"><br>好像正常了，然而：<br><img src="corrazaerr4.png"><br>需要观察一下在PDF自变量较大的时候被积函数的取值：<br><img src="testfunerr2.png"><br>出现了不止一个NaN，那么可以推断，随着PDF自变量的增加，<strong>被积函数在取值较小时会出现NaN</strong>，那么提高积分下限的思路是没有问题的，但是提高多少，需要稍微操作一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s=0:0.01:5;         %s作为自变量</span><br><span class="line">for i=1:1:length(s)</span><br><span class="line">temp=(1./s(i).^3).*exp(-((K+1).*r.^2./s(i).^2)-((log(s(i))-miu).^2./(2.*(h.*sigma).^2))).*besseli(0,((2.*r.*sqrt(K.*(K+1)))./s(i)));</span><br><span class="line">if(isnan(temp)~ =1) %从小到大计算被积函数值，当函数值第一次不为NaN时，此时的自变量作为积分下限，同时跳出循环</span><br><span class="line">    mark=s(i);</span><br><span class="line">    break;</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>再次测试：<br><img src="corrazaerr5.png"><br>终于上面提到的各种问题都得到了解决，开始画图：<br><img src="corrazaresult.jpg"><br>美丽的图像，似乎一切都解决了。<br><strong>那么，为什么会出现这样的错误呢？</strong></p>
+<h2 id="迁移，并深入本质"><a href="#迁移，并深入本质" class="headerlink" title="迁移，并深入本质"></a>迁移，并深入本质</h2><h3 id="果然，一切还没结束"><a href="#果然，一切还没结束" class="headerlink" title="果然，一切还没结束"></a>果然，一切还没结束</h3><p>在笔者打算提交报告跑路的前一刻，突然想起来之前的另一个信道模型C.Loo似乎也用错了贝塞尔函数，那么这边自然也需要修正一下了。<br>首先，C.Loo模型的PDF如下：<br><img src="CLoopdf.png"><br>修正后的Matlab代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function [pdf] = clm(r,alpha,psi,MP)</span><br><span class="line">miu=log(10^(alpha/20));</span><br><span class="line">d0=10^(psi/10);</span><br><span class="line">b0=10^(MP/10);</span><br><span class="line"></span><br><span class="line"> s=0:0.01:10;</span><br><span class="line"> mark=0;</span><br><span class="line"> for i=1:1:length(s)</span><br><span class="line">     temp=(1./s(i)).*exp((-((log(s(i))-miu).^2)./(2.*d0))-((r.^2+s(i).^2)./(2.*b0))).*besseli(0,(r.*s(i)./b0));</span><br><span class="line">     if(isnan(temp)~ =1)</span><br><span class="line">         mark=s(i);</span><br><span class="line">         break;</span><br><span class="line">     end</span><br><span class="line"> end</span><br><span class="line"></span><br><span class="line">intfun=@(x) (1./x).*exp((-((log(x)-miu).^2)./(2.*d0))-((r.^2+x.^2)./(2.*b0))).*besseli(0,(r.*x./b0));</span><br><span class="line">pdf=r/(b0*sqrt(2*pi*d0))*integral(intfun,mark,inf);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>事不宜迟，试试效果如何：<br><img src="clooerr1.png"><br>没想到又一次出现同样的问题，而且这个问题明明已经解决了，感觉瞬间又回到了原点。<br>没办法，继续来吧，从观察被积函数开始：<br><img src="clooerr2.png"><br>这一次，问题同时出现在了积分上下限，这就意味着如果再使用刚刚的办法，笔者将不得不计算极大范围内的数据，这个显然超出了手边这台小破笔记本的能力。<br>那么，只能深挖一层，从更深处解决问题了。</p>
+<h3 id="探索问题的本质"><a href="#探索问题的本质" class="headerlink" title="探索问题的本质"></a>探索问题的本质</h3><p>现在，问题变成了<strong>如何寻找一个取值的上限，使该上限内的自变量都可以让被积函数取非NaN的值，且尽可能的准确</strong>。<br>那么，需要思考一个问题，NaN是如何得到的？<br>回到被积函数中，被积函数包括一个<strong>e为底的负指数函数</strong>以及一个<strong>第一类零阶修正贝塞尔函数</strong>，前者的取值会无限趋近于0，后者根据前面的调查，它是指数增加型的函数，取值会趋于无穷大。那么这个NaN会不会是因为负指数函数趋向0，贝塞尔函数趋近无穷而导致出现了<code>0*inf</code>的结果呢？<br>那么，只要找到贝塞尔函数中的函数值在Matlab中从非<code>inf</code>值到<code>inf</code>值的分界点，那么它就可以换算为一个通用的积分上限。<br>开始测试：<br><img src="clooerr3.png"><br>可以看到，从自变量大约为700左右起(更精确的计算后得到是700.92)，该贝塞尔函数的取值会从非<code>inf</code>值变成<code>inf</code>值。那么积分的上限就可以进行换算了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">intmax=700.92.*b0./r;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在C.Loo模型中同时进行上下限的限制，最终得到结果：<br><img src="clooerr4.png"><br>似乎一切正常，那么开始画图：<br><img src="clooresult.jpg"><br>图像有一些小瑕疵，可能是由于限制了积分上下限导致的，但是整体看起来很美，这个问题就先放着吧，以后再说。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>至此，这个问题算是告一段落，笔者的报告也顺利完成提交完毕了。这个问题看起来其实还是比较简单的，并没有使用特别复杂的处理方式，但是这个由表至里、由浅至深的思维方式及顺序还是具有一定的参考价值的，希望在以后处理类似的问题时笔者也可以顺着这样的思路，尽可能深入到问题的本质中去吧。<br><strong>路还很长，生命不息，思考不止</strong></p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2021-10-23</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Matlab/" class="post-tags__link button"># Matlab</a><a href="/tags/%E9%97%B2%E8%81%8A/" class="post-tags__link button"># 闲聊</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2021/10/11/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-%E9%A2%98%E8%A7%A3/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            LeetCode刷题记录&amp;题解
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021 <a href="/">咸鱼养殖场</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
