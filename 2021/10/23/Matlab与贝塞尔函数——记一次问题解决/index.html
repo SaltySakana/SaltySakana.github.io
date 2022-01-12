@@ -16,9 +16,9 @@
     <!--icon-->
 
     
-        <link rel="shortcut icon" href="/icons/favicon.ico">
     
     
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/myico.png">
     
     
     
@@ -63,7 +63,7 @@
 <meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooerr4.png">
 <meta property="og:image" content="http://example.com/2021/10/23/Matlab%E4%B8%8E%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/clooresult.jpg">
 <meta property="article:published_time" content="2021-10-23T01:52:20.000Z">
-<meta property="article:modified_time" content="2021-10-23T07:07:21.463Z">
+<meta property="article:modified_time" content="2021-10-23T12:45:15.642Z">
 <meta property="article:author" content="罐头鱼">
 <meta property="article:tag" content="Matlab">
 <meta property="article:tag" content="闲聊">
@@ -204,7 +204,7 @@
 <h2 id="现象及初步排查"><a href="#现象及初步排查" class="headerlink" title="现象及初步排查"></a>现象及初步排查</h2><h3 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h3><p>首先从出现问题的模型开始说起。这个模型叫做Corraza模型，用于描述卫星通信的信道特性。细节的东西不重要直接略过，它的PDF如下：<br><img src="corrazapdf.png"><br>这里的I0是<strong>第一类零阶修正贝塞尔函数</strong>，这也是这次的核心问题之一。<br>另外，该函数里的其他参数都是卫星仰角的函数，所以只要给出自变量<code>r</code>和卫星仰角<code>sita</code>,那么该PDF的值就可以唯一确定。<br>看上去除了长了一点没有太大问题，直接Matlab开搞：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function [pdf]=cm(r,sita)</span><br><span class="line"></span><br><span class="line">K0=2.731; K1=-1.074*10^(-1); K2=2.774*10^(-3);</span><br><span class="line">miu0=-2.331; miu1=1.142*10^(-1); miu2=-1.939*10^(-3); miu3=1.094*10^(-5);</span><br><span class="line">sigma0=4.5; sigma1=-0.05;		</span><br><span class="line">h=log(10)/20; </span><br><span class="line">%公式中的参数由论文提供</span><br><span class="line"></span><br><span class="line">K=K0+K1*sita+K2*sita^2;</span><br><span class="line">miu=miu0+miu1*sita+miu2*sita^2+miu3*sita^3;</span><br><span class="line">sigma=sigma0+sigma1*sita;	    </span><br><span class="line">%计算其他中间参数</span><br><span class="line"></span><br><span class="line">intfun=@(x) (1./x.^3).*exp(-((K+1).*r.^2./x.^2)-((log(x)-miu).^2./(2.*(h.*sigma).^2))).*besselj(0,((2.*r.*sqrt(K.*(K+1)))./x));</span><br><span class="line">pdf=(2.*r.*(K+1))./(h.*sigma.*sqrt(2*pi)).*exp(-K).*integral(intfun,0,inf);   </span><br><span class="line">%输出结果</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>检查几遍没有问题，OK，开始画图：<br><img src="corrazaerr1.png"><br>这里显然可以看到有问题，作为概率密度函数，pdf的值不可能为负。接下来开始逐层排查问题：</p>
+<p>检查几遍没有问题，OK，开始画图：<br><img src="corrazaerr1.png"><br>这里显然可以看到有问题，作为概率密度函数，pdf的值不可能为负。接下来逐层排查问题：</p>
 <h3 id="负值的来源"><a href="#负值的来源" class="headerlink" title="负值的来源"></a>负值的来源</h3><p><strong>观察PDF的形式，积分外的部分显然是一个正比函数，<code>r</code>取正值时必为正值，那么负值来源于积分内部。</strong><br><strong>再看被积函数，一个底数为e的指数函数，一个自变量的-3次方，这两项在自变量取正值时必为正，那么负值来源于贝塞尔函数I0。</strong><br>google一下贝塞尔函数，找到了修正贝塞尔函数的形式：<br><img src="mbessel.png"><br>显然它是指数增长形式且没有负值，这就怪了，笔者明明用的是修正贝塞尔函数但是为什么会出现负值呢？<br>再google一下Matlab里的贝塞尔函数，才发现笔者用的函数是<code>besselj(nu,z)</code>，这个是非修正的贝塞尔函数：<br><img src="bessel.png"><br>这就不奇怪了，那么解决也很简单，把<code>besselj(nu,z)</code>换成对应的<code>besseli(nu,z)</code>就可以了。<br><strong>然而，真的会这么简单么(笑)</strong></p>
 <h2 id="表层分析与解决"><a href="#表层分析与解决" class="headerlink" title="表层分析与解决"></a>表层分析与解决</h2><h3 id="一波又起"><a href="#一波又起" class="headerlink" title="一波又起"></a>一波又起</h3><p>如上文所示，把贝塞尔函数换成正确的形式，开始画图：<br><img src="corrazaerr2.png"><br>心 肺 停 止<br>出现了NaN，对于Matlab来说就是被积函数出现了NaN，既然如此，有必要看一下被积函数到底是什么样子了：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">s=0:0.01:4;</span><br><span class="line">testfun=(1./s.^3).*exp(-((K+1).*r.^2./s.^2)-((log(s)-miu).^2./(2.*(h.*sigma).^2))).*besseli(0,((2.*r.*sqrt(K.*(K+1)))./s));</span><br><span class="line">plot(s,testfun);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -229,6 +229,20 @@
 
     <div class="nav">
         <div class="nav__prev">
+            
+                <a href="/2022/01/12/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95and%E5%90%90%E6%A7%BD/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            论文阅读记录and吐槽
+                        </div>
+                    </div>
+                </a>
             
         </div>
         <div class="nav__next">
@@ -275,7 +289,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2021 <a href="/">咸鱼养殖场</a>
+            Copyright © 2022 <a href="/">咸鱼养殖场</a>
         </p>
     
     
