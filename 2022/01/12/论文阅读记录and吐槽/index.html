@@ -45,7 +45,7 @@
 <meta property="og:description" content="今后打算用这篇博文实时记录一下研究生阶段精读过的论文，包括阅读过程、内容本身、对其的思考和吐槽之类的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-01-12T11:30:26.000Z">
-<meta property="article:modified_time" content="2022-01-12T13:17:51.557Z">
+<meta property="article:modified_time" content="2022-01-13T12:00:13.059Z">
 <meta property="article:author" content="罐头鱼">
 <meta property="article:tag" content="闲聊">
 <meta property="article:tag" content="整活">
@@ -162,7 +162,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Measuring-Sparsity-of-Wireless-Channels"><span class="toc-text">Measuring Sparsity of Wireless Channels</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">论文背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Abstract-%E6%91%98%E8%A6%81"><span class="toc-text">Abstract(摘要)</span></a></li></ol></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Measuring-Sparsity-of-Wireless-Channels"><span class="toc-text">Measuring Sparsity of Wireless Channels</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">论文背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Abstract-%E6%91%98%E8%A6%81"><span class="toc-text">Abstract(摘要)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Introduction-%E8%83%8C%E6%99%AF"><span class="toc-text">Introduction(背景)</span></a></li></ol></li></ol></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -172,7 +172,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Measuring-Sparsity-of-Wireless-Channels"><span class="toc-text">Measuring Sparsity of Wireless Channels</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">论文背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Abstract-%E6%91%98%E8%A6%81"><span class="toc-text">Abstract(摘要)</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Measuring-Sparsity-of-Wireless-Channels"><span class="toc-text">Measuring Sparsity of Wireless Channels</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">论文背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Abstract-%E6%91%98%E8%A6%81"><span class="toc-text">Abstract(摘要)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Introduction-%E8%83%8C%E6%99%AF"><span class="toc-text">Introduction(背景)</span></a></li></ol></li></ol></li></ol>
     </div>
 
 
@@ -193,10 +193,14 @@
 <blockquote><p>The measurement-based analysis shows that the channel <strong>DoF</strong> and <strong>Gini index</strong> provide the <strong>best</strong> sensitivity and accuracy for measuring channel sparsity, whereas the number of <strong>MPCs</strong> has the <strong>worst</strong> performance. Moreover, the widely used channel parameter of <strong>Ricean K factor</strong> is found to have <strong>fairly good</strong> sensitivity to channel sparsity and can be used for channel sparsity evaluation.</p>
 </blockquote>
 <p>结果分析。用人话翻译一下就是<strong>DoF=Gini&gt;K&gt;MPC</strong>.结果比较有意思，因为前两个在之前的研究中很少能见得到，反而后两种比较常见。如果读完文章后发现确实如此，那这个结论很可能在之后的研究中能用得上。<br>总之，看摘要文章内容很有意思，慢慢看好了，说不定能收获些好东西。</p>
+<h4 id="Introduction-背景"><a href="#Introduction-背景" class="headerlink" title="Introduction(背景)"></a>Introduction(背景)</h4><p>大背景介绍，一般来说就是“xxx很牛逼，但是不够牛逼，有了我们的xxx后会更牛逼”，不是文章关注的重点，但是这篇里面Introduction意外地挺长，有将近两页，所以还是看一看有啥东西吧。<br><strong>第一段：</strong>信号从Tx到Rx，会反射、绕射、散射，不同信号到达Rx的幅度、相位、延迟都不一样，这就是多径传播。<br><strong>第二段：</strong>直观来说多径分量的数量很多，因此小尺度衰减和时延扩展(最大时延、最小时延之差)会很严重。<br><strong>第三段：</strong>现在的很多技术，比如信道估计和压缩感知都在利用无线信道的稀疏性(稀疏性很牛逼)。而稀疏信道一般具有以下特征：</p>
+<blockquote><p>1.wireless channels tend to exhibit clustered structure of MPCs (多径分量会集中分布在一些角度或时延的路径上，即信道被一小部分信道主导)<br>2.some scenarios lack sufficient richness of MPCs in the scattering environments (较大的衰减导致只有少部分多径分量能被观测到)<br>3.when using more dimensions of signal space, the sparsity is increased compared with distributing all the MPCs only in delay domain (使用角度域来描述多径分量时，稀疏性表示得更加明显)</p>
+</blockquote>
+<p><strong>第四段：</strong>稀疏性某些情况下甚至被当作了信道的“Nature”，尤其在毫米波信道，但是关于稀疏性本身的研究很少(不够牛逼1)。<br><strong>第五段：</strong>许多领域关于稀疏性的表示方法很多，比如大部分为0的矩阵、少部分元素包括大部分能量等，但是它们都没有很好地验证和比较过，尤其是无线通信领域(不够牛逼2)<br><strong>第五段：</strong>利用信道测量，比较了四种衡量稀疏性的参数，填补了上述领域的空白(我们的研究很牛逼)<br><strong>第六段：</strong>文章结构，略<br>基本上内容和预计差不多，有点期待下文了。</p>
 
     </div>
      
-    <div class="post-footer__meta"><p>updated at 2022-01-12</p></div> 
+    <div class="post-footer__meta"><p>updated at 2022-01-13</p></div> 
     <div class="post-entry__tags"><a href="/tags/%E9%97%B2%E8%81%8A/" class="post-tags__link button"># 闲聊</a><a href="/tags/%E6%95%B4%E6%B4%BB/" class="post-tags__link button"># 整活</a><a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" class="post-tags__link button"># 论文阅读</a></div> 
 </article>
 
