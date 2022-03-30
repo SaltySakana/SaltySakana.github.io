@@ -64,7 +64,7 @@
 <meta property="og:image" content="http://example.com/2022/02/13/%E5%A4%A7%E5%B0%BA%E5%BA%A6%E8%A1%B0%E8%90%BD%E6%A8%A1%E5%9E%8BMatlab%E5%AE%9E%E7%8E%B0/IEEE5.png">
 <meta property="og:image" content="http://example.com/2022/02/13/%E5%A4%A7%E5%B0%BA%E5%BA%A6%E8%A1%B0%E8%90%BD%E6%A8%A1%E5%9E%8BMatlab%E5%AE%9E%E7%8E%B0/IEEE6.png">
 <meta property="article:published_time" content="2022-02-13T12:36:30.000Z">
-<meta property="article:modified_time" content="2022-02-27T02:13:04.846Z">
+<meta property="article:modified_time" content="2022-03-30T01:26:01.551Z">
 <meta property="article:author" content="罐头鱼">
 <meta property="article:tag" content="Matlab">
 <meta property="article:tag" content="信道模型">
@@ -210,11 +210,11 @@
 <p>代码中可以看到，该代码同时实现了对数距离和正态阴影路损模型，输入参数中包含σ时即为正态阴影模型，反正则为对数距离模型。对数距离模型的仿真图像如下：<br><img src="Friis8.png"></p>
 <h3 id="正态阴影路径损耗模型"><a href="#正态阴影路径损耗模型" class="headerlink" title="正态阴影路径损耗模型"></a>正态阴影路径损耗模型</h3><p>仿真图像如下，图像展示了同样的传输条件下，三条路径的曲线。<br><img src="Friis9.png"></p>
 <h2 id="Okumura-Hata模型、"><a href="#Okumura-Hata模型、" class="headerlink" title="Okumura/Hata模型、"></a>Okumura/Hata模型、</h2><p>Okumura模型是通过广泛实验得到的移动通信系统信道模型，考虑了天线高度和地区覆盖类型等因素，被广泛应用。该模型的路径损耗可以表示为下式：<br><img src="Hata1.png"><br>其中Gt、Gr同样为收发端天线的增益，在此处仅和天线的高度有关；Garea为具体地区的传播环境增益，Amu为频率f处的中等起伏衰减因子，这两个参数可以通过查表得到。<br>Hata模型是Okumura模型扩展到各种传播环境后的结果。它在城市(U)、郊区(SU)和开阔地条件下的路径损耗可以表示为：<br><img src="Hata2.png"><br>可以看到，其他条件下的路损是从城市条件下的路损修正而来，因此主要关注城市环境下的路损。其中htx为发射天线的高度，fc为载波频率，d为收发端的距离。Crx为与接收天线和载波频率有关的系数，计算方式如下：<br><img src="Hata3.png"><br>其中hrx为接收天线的高度。<br>仿真图像如下所示，可以看到由于障碍物较多，城市场景的路损是最大的。<br><img src="Hata4.png"></p>
-<h2 id="IEEE-802-16d模型"><a href="#IEEE-802-16d模型" class="headerlink" title="IEEE 802.16d模型"></a>IEEE 802.16d模型</h2><p>该模型属于对数正态阴影路径损耗模型。它的路径损耗为：<br><img src="IEEE1.png"><br>其中：<br><img src="IEEE2.png"><br><img src="IEEE3.png"><br>上述的a、b、c和A、B、C均是和场景有关的参数，根据郊区宏蜂窝(SMA)中收发端的障碍物密度来进行划分(ART和BRT分别代表屋顶上方和屋顶下方)：<br><img src="IEEE4.png"><br>实际仿真时，该模型存在不连续的部分，需要修正。经研究后，原公式中的参考距离d0修正如下：<br><img src="IEEE5.png"><br>最终修正后的模型如下：<br><img src="IEEE6.png"></p>
+<h2 id="IEEE-802-16d模型"><a href="#IEEE-802-16d模型" class="headerlink" title="IEEE 802.16d模型"></a>IEEE 802.16d模型</h2><p>该模型属于对数正态阴影路径损耗模型。它的路径损耗为：<br><img src="IEEE1.png"><br>其中(注意此时fc的单位为MHz)：<br><img src="IEEE2.png"><br><img src="IEEE3.png"><br>上述的a、b、c和A、B、C均是和场景有关的参数，根据郊区宏蜂窝(SMA)中收发端的障碍物密度来进行划分(ART和BRT分别代表屋顶上方和屋顶下方)：<br><img src="IEEE4.png"><br>实际仿真时，该模型存在不连续的部分，需要修正。经研究后，原公式中的参考距离d0修正如下：<br><img src="IEEE5.png"><br>最终修正后的模型如下：<br><img src="IEEE6.png"></p>
 
     </div>
      
-    <div class="post-footer__meta"><p>updated at 2022-02-27</p></div> 
+    <div class="post-footer__meta"><p>updated at 2022-03-30</p></div> 
     <div class="post-entry__tags"><a href="/tags/Matlab/" class="post-tags__link button"># Matlab</a><a href="/tags/%E4%BF%A1%E9%81%93%E6%A8%A1%E5%9E%8B/" class="post-tags__link button"># 信道模型</a></div> 
 </article>
 
